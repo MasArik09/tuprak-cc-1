@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <div class="card">
+            <div class="badge">Flask Web App</div>
+            <h1>{{ title }}</h1>
+            <p class="subtitle">Project Python Flask telah berhasil dibuat dan terhubung ke basis data MySQL.</p>
+            
+            <div class="info-box">
+                <p><strong>Status Server:</strong> <span class="status-indicator">Online</span></p>
+                <p>
+                    <strong>Status Database:</strong>
+                    {% if db_status.connected %}
+                        <span class="status-indicator">Terhubung</span>
+                    {% else %}
+                        <span class="status-indicator status-error">Gagal Terhubung</span>
+                    {% endif %}
+                </p>
+                <p><strong>Database Name:</strong> <code>{{ db_status.database if db_status.connected else 'Tidak Terhubung' }}</code></p>
+                {% if db_status.connected %}
+                    <p><strong>Versi MySQL:</strong> <code>{{ db_status.version }}</code></p>
+                {% else %}
+                    <p><strong>Error:</strong> <code>{{ db_status.error }}</code></p>
+                {% endif %}
+                <p><strong>Endpoint Health:</strong> <code>/api/health</code></p>
+                <p><strong>Endpoint DB Check:</strong> <code>/api/db-check</code></p>
+            </div>
+
+            <div class="actions">
+                <a href="/api/health" target="_blank" class="btn btn-primary">Cek API Health</a>
+                <a href="/api/db-check" target="_blank" class="btn btn-secondary">Cek API Database</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
